@@ -84,7 +84,7 @@ void pwm_setup() {
     pwm_set_wrap(slice_num_1, top);
     pwm_set_wrap(slice_num_2, top);
 
-    pwm_set_chan_level(slice_num_1, PWM_CHAN_B, top / 2); // GPIO 4 → canal B
+    pwm_set_chan_level(slice_num_1, PWM_CHAN_B, top / 2); // GPIO 8 → canal B
     pwm_set_chan_level(slice_num_2, PWM_CHAN_A, top / 2); // GPIO 9 → canal A
 
     pwm_set_enabled(slice_num_1, true);

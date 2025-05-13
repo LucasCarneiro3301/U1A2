@@ -18,7 +18,6 @@ typedef struct {
 // Definição de tipo da matriz de leds
 typedef Color Led_Matrix[5][5];
 
-void ws2812_draw_column(float r, float g, float b, int col, bool clear, bool print);
-void ws2812_clean();
+void symbol(char symbol);
 
 #endif

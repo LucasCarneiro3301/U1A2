@@ -14,6 +14,19 @@ volatile uint32_t last_time = 0;        // Armazena o tempo do último evento (e
 volatile float tempI = 0.0;
 volatile float tempA = 0.0;
 
+// Frequências das notas musicais (em Hz)
+enum Notes {
+    DO = 2640, // Dó
+    RE = 2970, // Ré
+    MI = 3300, // Mi
+    FA = 3520, // Fá
+    SOL = 3960, // Sol
+    LA = 4400, // Lá
+    SI = 4950,  // Si
+    DO_ALTO = 5280,  // Dó uma oitava acima (C5)
+    LA_BAIXO = 880
+};
+
 int setup_tcp_server(void);                                                                 // Função de callback para configurar e iniciar o servidor TCP
 static err_t tcp_server_accept(void *arg, struct tcp_pcb *newpcb, err_t err);               // Função de callback ao aceitar conexões TCP
 static err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err);   // Função de callback para processar requisições HTTP
@@ -33,6 +46,7 @@ int main()
     ssd1306_t ssd;
     bool cor = true, control = true;
     char str[16];
+    uint8_t last_stt = 0;
 
     init(pio, sm, &ssd);    // Inicializa e configura os componentes
 
@@ -42,11 +56,20 @@ int main()
     ssd1306_draw_string(&ssd, "A CONEXAO...", 24, 40);	// Desenha uma string
     ssd1306_send_data(&ssd);    					// Atualiza o display
 
-    cyw43_setup();          // Inicializa e configura o CI CYW43
+    // Inicializa e configura o CI CYW43
+    if(cyw43_setup() != 1) {
+        ssd1306_fill(&ssd, false);  					// Limpa o display
+        ssd1306_draw_string(&ssd, "CONEXAO", 28, 28);	// Desenha uma string 
+        ssd1306_draw_string(&ssd, "MAL SUCEDIDA", 24, 40);	// Desenha uma string
+        ssd1306_send_data(&ssd);    					// Atualiza o display
+
+        return -1;
+    }
 
     // Inicialização do servidor TCP
-    if (setup_tcp_server() != 0)
+    if (setup_tcp_server() != 0) {
         return -1;
+    }
 
     gpio_set_irq_enabled_with_callback(BTNA, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler); //Callback de interrupção do Botão A
     gpio_set_irq_enabled_with_callback(BTNB, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler); //Callback de interrupção do Botão B
@@ -80,19 +103,23 @@ int main()
                 ssd1306_draw_string(&ssd, "STATUS:NORMAL",4, 52);    
                 symbol('v');
                 gpio_put(RED,false);gpio_put(GREEN,true);
+                (status!=last_stt)?play_buzzer(SOL):pwm_set_gpio_level(BUZZER,0);
             } else if(status==2) {
                 ssd1306_draw_string(&ssd, "STATUS:ALERT",4, 52);    
                 symbol('w');
                 gpio_put(RED,true);gpio_put(GREEN,true);
+                (status!=last_stt)?play_buzzer(LA):pwm_set_gpio_level(BUZZER,0);
             } else {
                 ssd1306_draw_string(&ssd, "STATUS:DANGER",4, 52);    
                 symbol('x');
                 gpio_put(RED,true);gpio_put(GREEN,false);
+                (status!=last_stt)?play_buzzer(RE):pwm_set_gpio_level(BUZZER,0);
             }
         }
         ssd1306_draw_string(&ssd, (mode==1) ? "H" : (mode==2) ? "C" : "I", 113, 4);
         ssd1306_send_data(&ssd);                        // Atualiza o display
 
+        last_stt = status;
         sleep_ms(100);      // Reduz o uso da CPU
     }
 

@@ -27,7 +27,7 @@
 #define JOY_X 27 			// Eixo X do joystick 
 #define WS2812_PIN 7    	// Matriz de LEDs 5x5
 
-#define FAN 4
+#define FAN 8
 #define HEAT_RESIST 9
 #define AIR_CONDIT 20
 #define HEATER 19

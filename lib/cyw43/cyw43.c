@@ -1,6 +1,6 @@
 #include "cyw43.h"
 
-void cyw43_setup() {
+int cyw43_setup() {
     while (cyw43_arch_init())
     {
         printf("Falha ao inicializar Wi-Fi");
@@ -28,4 +28,5 @@ void cyw43_setup() {
         printf("IP do dispositivo: %s\n", ipaddr_ntoa(&netif_default->ip_addr));
     }
 
+    return 1;
 }
