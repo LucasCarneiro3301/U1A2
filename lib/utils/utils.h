@@ -3,6 +3,12 @@
 
 #include "../config/config.h"
 
+/*
+    IDLE = 25 - 60 (20-25  e 60-80)
+    HEAT = 80 - 120 (70-80 e 120-130)
+    COLD = 5 - 20 (0-5 e 20-25)
+*/
+
 uint8_t _tempI(uint8_t status, uint8_t mode, float tempI) {
     if(!status)
         return 0;
@@ -98,7 +104,7 @@ uint8_t action(uint8_t status, uint8_t mode, float tempI,float tempA, uint16_t p
         pwm_set_gpio_level(FAN,0);
     }
 
-    uint8_t act_2 = _tempI(status,mode,tempA);
+    uint8_t act_2 = _tempA(status,mode,tempA);
 
     if(act_2==1) {
         gpio_put(HEATER,false);

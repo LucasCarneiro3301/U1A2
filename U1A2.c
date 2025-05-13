@@ -1,4 +1,5 @@
 #include "lib/config/config.h"
+#include "lib/ws2812/ws2812.h"
 #include "lib/cyw43/cyw43.h"
 #include "lib/utils/utils.h"
 
@@ -35,6 +36,7 @@ int main()
 
     init(pio, sm, &ssd);    // Inicializa e configura os componentes
 
+    symbol('*');                                    // Desliga a matriz de LEDs
     ssd1306_fill(&ssd, false);  					// Limpa o display
     ssd1306_draw_string(&ssd, "AGUARDE", 28, 28);	// Desenha uma string 
     ssd1306_draw_string(&ssd, "A CONEXAO...", 24, 40);	// Desenha uma string
@@ -60,16 +62,34 @@ int main()
 
         ssd1306_fill(&ssd, !cor);                       // Limpa o display
         ssd1306_rect(&ssd, 1, 1, 123, 63, cor, !cor);   // Retângulo da área útil
-        //ssd1306_line(&ssd, 3, 25, 122, 25, cor);        // Linha horizontal superior
-        //ssd1306_line(&ssd, 3, 46, 122, 46, cor);        // Linha horizontal inferior
-        //ssd1306_line(&ssd, 63, 3, 63, 60, cor);         // Linha vertical central
-        sprintf(str, (status) ? "TI:%.2f" : "TI:--", tempI);
-        ssd1306_draw_string(&ssd, str ,4, 4);
-        sprintf(str, (status) ? "TA:%.2f" : "TA:--", tempA);
-        ssd1306_draw_string(&ssd, str,4, 20);
-        sprintf(str, (status) ? "SPEED:%i" : "SPEED:--", pwm);
-        ssd1306_draw_string(&ssd, str,4, 36);
-        ssd1306_draw_string(&ssd, (status==1)?"STATUS:NORMAL":(status==2)?"STATUS:ALERT":(status==3)?"STATUS:DANGER":"STATUS:STOP",4, 52);
+        if(!status) {
+            ssd1306_draw_string(&ssd, "TI:--" ,4, 4);
+            ssd1306_draw_string(&ssd, "TA:--", 4, 20);
+            ssd1306_draw_string(&ssd, "SPEED:--",4, 36);
+            ssd1306_draw_string(&ssd, "STATUS:STOP",4, 52);    
+            symbol('*');
+            gpio_put(RED,false);gpio_put(GREEN,false);
+        } else {
+            sprintf(str, "TI:%.2f", tempI);
+            ssd1306_draw_string(&ssd, str ,4, 4);
+            sprintf(str, "TA:%.2f", tempA);
+            ssd1306_draw_string(&ssd, str,4, 20);
+            sprintf(str, "SPEED:%i", pwm);
+            ssd1306_draw_string(&ssd, str,4, 36);
+            if(status==1) {
+                ssd1306_draw_string(&ssd, "STATUS:NORMAL",4, 52);    
+                symbol('v');
+                gpio_put(RED,false);gpio_put(GREEN,true);
+            } else if(status==2) {
+                ssd1306_draw_string(&ssd, "STATUS:ALERT",4, 52);    
+                symbol('w');
+                gpio_put(RED,true);gpio_put(GREEN,true);
+            } else {
+                ssd1306_draw_string(&ssd, "STATUS:DANGER",4, 52);    
+                symbol('x');
+                gpio_put(RED,true);gpio_put(GREEN,false);
+            }
+        }
         ssd1306_draw_string(&ssd, (mode==1) ? "H" : (mode==2) ? "C" : "I", 113, 4);
         ssd1306_send_data(&ssd);                        // Atualiza o display
 
