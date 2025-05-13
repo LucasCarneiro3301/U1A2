@@ -158,11 +158,11 @@ void user_request(char **request){
 
     if (strstr(*request, "GET /+") != NULL)
     {
-        pwm = (pwm + 25)%1250;
+        pwm = (pwm==1250) ? 0 : pwm + 25;
     }
     else if (strstr(*request, "GET /-") != NULL)
     {
-        pwm = (pwm - 25 + 1250) % 1250;
+        pwm = (pwm==0) ? 1250 : pwm - 25;
     }
     else if (strstr(*request, "GET /s") != NULL)
     {
