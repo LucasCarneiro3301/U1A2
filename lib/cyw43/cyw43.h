@@ -14,6 +14,6 @@
 #define LED_PIN CYW43_WL_GPIO_LED_PIN   // GPIO do CI CYW43
 
 //Inicializa a arquitetura do cyw43
-void cyw43_setup();
+int cyw43_setup();
 
 #endif
