@@ -89,6 +89,9 @@ void pwm_setup() {
 
     pwm_set_enabled(slice_num_1, true);
     pwm_set_enabled(slice_num_2, true);
+
+    pwm_set_gpio_level(HEAT_RESIST, 0);
+    pwm_set_gpio_level(FAN, 0);
 }
 
 
