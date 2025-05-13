@@ -97,7 +97,7 @@ int main()
             ssd1306_draw_string(&ssd, str ,4, 4);
             sprintf(str, "TA:%.2f", tempA);
             ssd1306_draw_string(&ssd, str,4, 20);
-            sprintf(str, "SPEED:%i", pwm);
+            sprintf(str, "SPEED:%.1f%%", (pwm/1250.0)*100.0);
             ssd1306_draw_string(&ssd, str,4, 36);
             if(status==1) {
                 ssd1306_draw_string(&ssd, "STATUS:NORMAL",4, 52);    

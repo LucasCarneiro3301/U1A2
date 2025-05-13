@@ -96,6 +96,7 @@ void pwm_setup() {
 
 
 void init(PIO pio, uint sm, ssd1306_t* ssd) {
+    stdio_init_all();
     btn_setup();
     output_setup();
     i2c_setup();

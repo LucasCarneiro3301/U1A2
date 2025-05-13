@@ -74,7 +74,6 @@ uint8_t _tempA(uint8_t status, uint8_t mode, float tempA) {
 }
 
 uint8_t action(uint8_t status, uint8_t mode, float tempI,float tempA, uint16_t pwm) {
-    printf("%i\n",status);
     if(!status) {
         pwm_set_gpio_level(HEAT_RESIST, 0);
         pwm_set_gpio_level(FAN, 0);
