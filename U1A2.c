@@ -66,7 +66,10 @@ int main()
         sprintf(str, (status) ? "TI:%.2f" : "TI:--", tempI);
         ssd1306_draw_string(&ssd, str ,4, 4);
         sprintf(str, (status) ? "TA:%.2f" : "TA:--", tempA);
-        ssd1306_draw_string(&ssd, str,4, 23);
+        ssd1306_draw_string(&ssd, str,4, 20);
+        sprintf(str, (status) ? "SPEED:%i" : "SPEED:--", pwm);
+        ssd1306_draw_string(&ssd, str,4, 36);
+        ssd1306_draw_string(&ssd, (status==1)?"STATUS:NORMAL":(status==2)?"STATUS:ALERT":(status==3)?"STATUS:DANGER":"STATUS:STOP",4, 52);
         ssd1306_draw_string(&ssd, (mode==1) ? "H" : (mode==2) ? "C" : "I", 113, 4);
         ssd1306_send_data(&ssd);                        // Atualiza o display
 
