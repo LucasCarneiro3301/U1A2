@@ -11,6 +11,14 @@ void btn_setup() {
     gpio_init(BTNB);
     gpio_set_dir(BTNB, GPIO_IN);
     gpio_pull_up(BTNB);
+
+    gpio_init(BTNC);
+    gpio_set_dir(BTNC, GPIO_IN);
+    gpio_pull_up(BTNC);
+
+    gpio_init(BTND);
+    gpio_set_dir(BTND, GPIO_IN);
+    gpio_pull_up(BTND);
 }
 
 void output_setup() {
@@ -22,6 +30,12 @@ void output_setup() {
     gpio_set_dir(AIR_CONDIT, GPIO_OUT);
     gpio_init(HEATER);
     gpio_set_dir(HEATER, GPIO_OUT);
+    gpio_init(FAN_IN1);
+    gpio_set_dir(FAN_IN1, GPIO_OUT);
+    gpio_init(FAN_IN2);
+    gpio_set_dir(FAN_IN2, GPIO_OUT);
+    gpio_put(FAN_IN1, false);
+    gpio_put(FAN_IN2, false);
 }
 
 // Inicializa e configura a comunicação serial I2C 
@@ -62,15 +76,15 @@ void ws2812_setup(PIO pio, uint sm) {
 // Inicializa e configura os pinos do joystick como periféricos ADC
 void adc_setup() {
     adc_init();
-    adc_gpio_init(JOY_Y);
+    adc_gpio_init(LM35);
     adc_gpio_init(JOY_X);
 }
 
 void pwm_setup() {
-    gpio_set_function(FAN, GPIO_FUNC_PWM);
+    gpio_set_function(FAN_ENA, GPIO_FUNC_PWM);
     gpio_set_function(HEAT_RESIST, GPIO_FUNC_PWM);
 
-    uint slice_num_1 = pwm_gpio_to_slice_num(FAN);
+    uint slice_num_1 = pwm_gpio_to_slice_num(FAN_ENA);
     uint slice_num_2 = pwm_gpio_to_slice_num(HEAT_RESIST);
 
     uint32_t clock_freq = 125000000;
@@ -91,7 +105,7 @@ void pwm_setup() {
     pwm_set_enabled(slice_num_2, true);
 
     pwm_set_gpio_level(HEAT_RESIST, 0);
-    pwm_set_gpio_level(FAN, 0);
+    pwm_set_gpio_level(FAN_ENA, 0);
 }
 
 
