@@ -24,7 +24,7 @@ __Para este trabalho, os seguintes componentes e ferramentas se fazem necessári
 16) 1 sensor de temperatura LM35
 17) 1 potenciometro (eixo horizontal do joystick)
 
-__O resultado do projeto pode ser assistido através deste link: [Vídeo de Apresentação - Webserver HTTP.](https://youtu.be/zVdWSzDmSOE).__
+__O resultado do projeto pode ser assistido através deste link: [Vídeo de Apresentação - Webserver HTTP.](https://youtu.be/fzZjYxA1iUU?si=bAfT5uDHsYb3Ivoa).__
 
 ## Instruções de Uso
 
