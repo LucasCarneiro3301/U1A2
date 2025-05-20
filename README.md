@@ -15,10 +15,14 @@ __Para este trabalho, os seguintes componentes e ferramentas se fazem necessári
 7) Ferramenta educacional BitDogLab.
 8) Matriz de LEDs 5x5.
 9) 1 Protoboard.
-10) 4 resistores de 330 0hms ou mais.
-11) 5 _jumpers_.
+10) 3 resistores de 330 0hms ou mais.
+11) 11 _jumpers_.
 12) Cabo USB.
-13) 4 LEDs
+13) 3 LEDs
+14) 1 Motor DC
+15) 1 drive de motor L298N
+16) 1 sensor de temperatura LM35
+17) 1 potenciometro (eixo horizontal do joystick)
 
 __O resultado do projeto pode ser assistido através deste link: [Vídeo de Apresentação - Webserver HTTP.](https://youtu.be/zVdWSzDmSOE).__
 
