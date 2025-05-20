@@ -82,7 +82,6 @@ int main()
         tempI = (select_adc_channel(1) * 2e2) / 4095.0;   // Eixo X (0 - 4095).
         tempA = conversion(select_adc_channel(2));        // LM35 (0 - 4095).
 
-        tempA = 25.0;
         status = action(status, mode, tempI, tempA, pwm)%4;
 
         ssd1306_fill(&ssd, !cor);                       // Limpa o display
